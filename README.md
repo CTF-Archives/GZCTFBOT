@@ -1,5 +1,7 @@
 ## GZCTF-bot
 
+![](./images/banner.png)
+
 ~~《以赛促学、以赛促教、学赛结合》~~
 
 适用于GZ::CTF的赛事播报机器人，GZ::CTF非常牛逼，GZ大大的好！，你的代码写的真棒！.jpeg
@@ -70,9 +72,38 @@ servers:
 ```bash
 python gzbot.py --url="https://ctf.xmutsec.cn" --notice=280853253 --id=1 --port=5700
 ```
+
+> 第一次使用请先添加题目
+
 如果您成功安装了依赖，并正确的配好了参数，他将会这样子运行 :D
 
 ![](./images/2.png)
+
+如何正确获取比赛ID？新建完比赛后，点击比赛
+
+![](./images/3.png)
+
+然后URL上边的数字就是比赛ID
+
+![](./images/4.png)
+
+比赛题目播报
+
+![](./images/5.png)
+
+一二三血播报
+
+![](./images/6.png)
+
+提示播报
+
+![](./images/7.png)
+
+比赛公告
+
+![](./images/8.png)
+
+
 
 #### 使用 nonebot 插件
 

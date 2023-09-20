@@ -45,10 +45,12 @@ def getNotice(URL, MATCH_ID):
     }
     try:
         res = request.get(dic['platform-notice'], verify=False)
+        if res.text == '[]':
+            sys.exit()
         allList = json.loads(res.text)
         return allList
     except:
-        sys.exit("\033[31m[%s] [ERROR]: 0ops! Something wrong... :(\033[0m" % (str(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))))
+        sys.exit("\033[31m[%s] [ERROR]: Please add a new challenge and use it! :(\033[0m" % (str(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))))
     
 # Match Announcement Information
 def getNormalInfo(URL, MATCH_ID):
