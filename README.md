@@ -107,4 +107,6 @@ python gzbot.py --url="https://ctf.xmutsec.cn" --notice=280853253 --id=1 --port=
 
 #### 使用 nonebot 插件
 
-（开发ing）
+~~（开发ing）~~
+
+开发个√⑧，爱咋用咋用
