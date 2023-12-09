@@ -31,7 +31,8 @@ thirdbloodLen = 0
 noticeList = []
 
 def processTime(t):
-    input_time = datetime.fromisoformat(t)
+    t_truncated = t[:26] + t[26:].split('+')[0]
+    input_time = datetime.fromisoformat(t_truncated)
     input_time_utc = input_time.replace(tzinfo=timezone.utc)
     beijing_timezone = timezone(timedelta(hours=8))
     beijing_time = input_time_utc.astimezone(beijing_timezone)
@@ -50,7 +51,7 @@ def getNotice(URL, MATCH_ID):
         allList = json.loads(res.text)
         return allList
     except:
-        sys.exit("\033[31m[%s] [ERROR]: Please add a new challenge and use it! :(\033[0m" % (str(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))))
+        sys.exit("\033[31m[%s] [ERROR]: Please add a new challenge and use it! :(\033[0m" % (str(processTime(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))))))
     
 # Match Announcement Information
 def getNormalInfo(URL, MATCH_ID):
@@ -176,9 +177,9 @@ def sendMessage(msg, CQ_PORT, GROUP_NOTICE_ID):
                             str(GROUP_NOTICE_ID), 
                             str(msg))
                         )
-        print('\033[32m[%s] [SEND] Sending message to %s\033[0m' % (str(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))), GROUP_NOTICE_ID))
+        print('\033[32m[%s] [SEND] Sending message to %s\033[0m' % (str(processTime(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))), GROUP_NOTICE_ID))
     except requests.exceptions.ConnectionError as e:
-        sys.exit("\033[31m[%s] [ERROR] Error sending message to %s, Connection error possible port or address error\033[0m" % (str(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))), GROUP_NOTICE_ID))
+        sys.exit("\033[31m[%s] [ERROR] Error sending message to %s, Connection error possible port or address error\033[0m" % (str(processTime(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))), GROUP_NOTICE_ID))
 
 async def sendMessageNotice(URL, MATCH_ID, CQ_PORT, GROUP_NOTICE_ID):
     global normalListLen, newchallengeListLen, newhintLen, firstbloodLen, secondbloodLen, thirdbloodLen
@@ -204,45 +205,45 @@ async def sendMessageNotice(URL, MATCH_ID, CQ_PORT, GROUP_NOTICE_ID):
             tmpThirdBloodInfo = getThirdBloodInfo(URL, MATCH_ID)
             tmpThirdBloodInfoLen = len(getThirdBloodInfo(URL, MATCH_ID))
 
-            print('\033[33m[%s] [INFO]: Waiting data...\033[0m' % (str(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))))
+            print('\033[33m[%s] [INFO]: Waiting data...\033[0m' % (str(processTime(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))))))
             if (normalListLen < tmpNormalListLen):
                 message = "【比赛公告】\n内容：%s\n时间：%s" % (tmpNormalList[0]['content'], processTime(tmpNormalList[0]['time']))
-                print("\033[32m[%s] [ANNOUNCEMENTS] Data on receipt of Announcements %s\033[0m" % (str(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))), tmpNormalList[0]['content']))
+                print("\033[32m[%s] [ANNOUNCEMENTS] Data on receipt of Announcements %s\033[0m" % (str(processTime(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))), tmpNormalList[0]['content']))
                 sendMessage(msg=message, CQ_PORT=CQ_PORT, GROUP_NOTICE_ID=GROUP_NOTICE_ID)
                 normalListLen = tmpNormalListLen
             else:
                 normalListLen = tmpNormalListLen
             if (newchallengeListLen < tmpNewChallengeInfoLen):
                 message = "【新增题目】\n%s\n时间：%s" % (tmpNewChallengeInfo[0]['content'], processTime(tmpNewChallengeInfo[0]['time']))
-                print("\033[32m[%s] [NEW CHALLENGE] Data on receipt of New Challenge %s\033[0m" % (str(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))), tmpNewChallengeInfo[0]['content']))
+                print("\033[32m[%s] [NEW CHALLENGE] Data on receipt of New Challenge %s\033[0m" % (str(), tmpNewChallengeInfo[0]['content']))
                 sendMessage(msg=message, CQ_PORT=CQ_PORT, GROUP_NOTICE_ID=GROUP_NOTICE_ID)
                 newchallengeListLen = tmpNewChallengeInfoLen
             else:
                 newchallengeListLen = tmpNewChallengeInfoLen
             if (newhintLen < tmpNewHintInfoLen):
                 message = "【题目提示】\n%s\n时间：%s" % (tmpNewHintInfo[0]['content'], processTime(tmpNewHintInfo[0]['time']))
-                print("\033[32m[%s] [NEW HINT] Data on receipt of New Hint %s\033[0m" % (str(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))), tmpNewHintInfo[0]['content']))
+                print("\033[32m[%s] [NEW HINT] Data on receipt of New Hint %s\033[0m" % (str(processTime(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))), tmpNewHintInfo[0]['content']))
                 sendMessage(msg=message, CQ_PORT=CQ_PORT, GROUP_NOTICE_ID=GROUP_NOTICE_ID)
                 newhintLen = tmpNewHintInfoLen
             else:
                 newhintLen = tmpNewHintInfoLen
             if (firstbloodLen < tmpFirstBloodInfoLen):
                 message = "【一血播报】\n%s\n时间：%s" % (tmpFirstBloodInfo[0]['content'], processTime(tmpFirstBloodInfo[0]['time']))
-                print("\033[32m[%s] [FIRST BLOOD] Data on receipt of First Blood %s\033[0m" % (str(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))), tmpFirstBloodInfo[0]['content']))
+                print("\033[32m[%s] [FIRST BLOOD] Data on receipt of First Blood %s\033[0m" % (str(processTime(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))), tmpFirstBloodInfo[0]['content']))
                 sendMessage(msg=message, CQ_PORT=CQ_PORT, GROUP_NOTICE_ID=GROUP_NOTICE_ID)
                 firstbloodLen = tmpFirstBloodInfoLen
             else:
                 firstbloodLen = tmpFirstBloodInfoLen
             if (secondbloodLen < tmpSecondBloodInfoLen):
                 message = "【二血播报】\n%s\n时间：%s" % (tmpSecondBloodInfo[0]['content'], processTime(tmpSecondBloodInfo[0]['time']))
-                print("\033[32m[%s] [SECOND BLOOD] Data on receipt of First Blood %s\033[0m" % (str(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))), tmpSecondBloodInfo[0]['content']))
+                print("\033[32m[%s] [SECOND BLOOD] Data on receipt of First Blood %s\033[0m" % (str(processTime(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))), tmpSecondBloodInfo[0]['content']))
                 sendMessage(msg=message, CQ_PORT=CQ_PORT, GROUP_NOTICE_ID=GROUP_NOTICE_ID)
                 secondbloodLen = tmpSecondBloodInfoLen
             else:
                 secondbloodLen = tmpSecondBloodInfoLen
             if (thirdbloodLen < tmpThirdBloodInfoLen):
                 message = "【三血播报】\n%s\n时间：%s" % (tmpThirdBloodInfo[0]['content'], processTime(tmpThirdBloodInfo[0]['time']))
-                print("\033[32m[%s] [THIRD BLOOD] Data on receipt of First Blood %s\033[0m" % (str(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))), tmpThirdBloodInfo[0]['content']))
+                print("\033[32m[%s] [THIRD BLOOD] Data on receipt of First Blood %s\033[0m" % (str(processTime(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))), tmpThirdBloodInfo[0]['content']))
                 sendMessage(msg=message, CQ_PORT=CQ_PORT, GROUP_NOTICE_ID=GROUP_NOTICE_ID)
                 thirdbloodLen = tmpThirdBloodInfoLen
             else:
@@ -250,7 +251,7 @@ async def sendMessageNotice(URL, MATCH_ID, CQ_PORT, GROUP_NOTICE_ID):
             await asyncio.sleep(3)
 
     except KeyboardInterrupt as e:
-        print('\033[31m[%s] [ERROR]: Trying to exit !!!\033[0m' % (str(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))))
+        print('\033[31m[%s] [ERROR]: Trying to exit !!!\033[0m' % (str(processTime(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))))))
 
 async def runner():
     tasks = [
